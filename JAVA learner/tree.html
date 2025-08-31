@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java DSA — Trees</title>
+
+<style>
+  /* Inline CSS matching your site theme */
+  :root{
+    --bg:#071026; --panel:#0f1826; --muted:#9fb3d6; --text:#eaf3ff;
+    --accent1:#6ea8fe; --accent2:#7ef0c1; --card-border:#1a2742;
+    --ok:#49d17d; --bad:#ff6b6b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,#061024,#071026 50%);
+    color:var(--text); -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.45;
+  }
+
+  /* Topbar */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 20px; background:var(--panel); border-bottom:1px solid var(--card-border);
+  }
+  .brand{ color:var(--text); font-weight:800; text-decoration:none; font-size:18px; }
+  .toplink{ color:var(--muted); text-decoration:none; font-size:14px; margin-left:14px; }
+
+  /* Container & cards */
+  .container{ max-width:1100px; margin:20px auto; padding:0 16px 56px; }
+  .card{ background:rgba(8,16,28,0.7); border:1px solid var(--card-border); border-radius:12px; padding:16px; margin:14px 0; box-shadow:0 6px 18px rgba(6,12,20,0.25); }
+  .muted{ color:var(--muted); }
+
+  /* Info grid */
+  .info-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin-top:12px; }
+  .info{ background:rgba(6,12,20,0.4); border:1px solid rgba(30,45,70,0.25); padding:10px; border-radius:10px; color:var(--text); font-size:14px; }
+
+  /* Code blocks & example */
+  .theory-pre{ white-space:pre-wrap; color:var(--text); font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace; }
+  .code{ background:#071826; border-radius:10px; padding:14px; border:1px solid var(--card-border); overflow:auto; font-family:ui-monospace,monospace; font-size:13px; line-height:1.5; }
+  .code code{ display:block; padding:2px 6px; border-radius:6px; cursor:pointer; }
+  .code code:hover{ background:rgba(255,255,255,0.02); }
+
+  .explain{ margin-top:10px; padding:10px; border-radius:10px; background:rgba(6,12,20,0.45); border:1px dashed rgba(40,60,100,0.2); color:var(--muted); }
+
+  /* Practice specifics */
+  .q{ background:linear-gradient(180deg, rgba(10,18,30,0.6), rgba(8,14,26,0.6)); border:1px solid var(--card-border); border-radius:12px; padding:12px; margin:12px 0; }
+  .workspace{ margin-top:10px; display:block; }
+  .editor{ width:100%; min-height:140px; resize:vertical; background:#081424; color:var(--text); border:1px solid rgba(30,45,70,0.25); border-radius:10px; padding:12px; font-family:ui-monospace,monospace; font-size:13px; }
+  .actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; align-items:center; }
+  .btn{ display:inline-block; padding:8px 12px; border-radius:10px; background:#123055; color:var(--text); text-decoration:none; border:1px solid transparent; cursor:pointer; font-weight:700; }
+  .btn.primary{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:#051025; }
+  .btn.outline{ background:transparent; border:1px solid rgba(100,130,180,0.16); color:var(--text); }
+  .btn.ghost{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03); }
+  .btn.xs{ padding:6px 8px; font-size:13px; border-radius:8px; }
+
+  .result{ margin-top:10px; background:rgba(6,12,20,0.45); border:1px solid rgba(30,45,70,0.25); padding:10px; border-radius:8px; color:var(--muted); white-space:pre-wrap; }
+  .solutions.hidden{ display:none; }
+  .solution{ margin-top:8px; background:rgba(6,12,20,0.45); border-radius:8px; padding:10px; border:1px solid rgba(20,30,50,0.2); color:var(--text); }
+
+  /* Footer */
+  .footer{ text-align:center; color:var(--muted); padding:20px 10px; font-size:14px; }
+  @media (max-width:900px){
+    .topbar{ padding:10px 12px; }
+    .container{ padding:0 12px; }
+    .editor{ min-height:120px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <nav class="topbar">
+    <a class="brand" href="index.html">Java DSA</a>
+    <div>
+      <a class="toplink" href="index.html#learning">All Topics</a>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- Intro -->
+    <section class="card">
+      <h1>Binary Trees (BT)</h1>
+      <p class="muted">Binary Trees are hierarchical data structures where each node has at most two children.</p>
+      <div class="info-grid">
+        <div class="info"><strong>Use when</strong><br>Hierarchical data, expression trees, decision trees.</div>
+        <div class="info"><strong>Operations</strong><br>Insert • Delete • Search • Traverse</div>
+        <div class="info"><strong>Traversals</strong><br>Inorder • Preorder • Postorder • Level-order</div>
+      </div>
+    </section>
+
+    <!-- Theory + interactive example -->
+    <section class="card">
+      <h2>🧠 Theory & Examples</h2>
+      <div class="code" id="example">
+<code data-explain='Define node of a binary tree.'>class Node{ int data; Node left,right; Node(int d){data=d; left=right=null;} }</code>
+<code data-explain='Preorder traversal (Root → Left → Right).'>void preorder(Node n){ if(n==null) return; System.out.print(n.data+" "); preorder(n.left); preorder(n.right); }</code>
+<code data-explain='Inorder traversal (Left → Root → Right).'>void inorder(Node n){ if(n==null) return; inorder(n.left); System.out.print(n.data+" "); inorder(n.right); }</code>
+<code data-explain='Postorder traversal (Left → Right → Root).'>void postorder(Node n){ if(n==null) return; postorder(n.left); postorder(n.right); System.out.print(n.data+" "); }</code>
+<code data-explain='Level-order traversal using Queue.'>void levelOrder(Node root){ if(root==null) return; Queue<Node> q=new LinkedList<>(); q.add(root); while(!q.isEmpty()){ Node temp=q.remove(); System.out.print(temp.data+" "); if(temp.left!=null) q.add(temp.left); if(temp.right!=null) q.add(temp.right); }}</code>
+      </div>
+      <div id="lineExplain" class="explain">Click any code line above to see its meaning here.</div>
+    </section>
+
+    <!-- Practice Section -->
+    <section class="card">
+      <h2>🧪 Practice (5 Questions)</h2>
+
+      <!-- Q1 -->
+      <details class="q">
+        <summary><strong>Q1.</strong> Implement a basic Binary Tree & insert nodes (Easy)</summary>
+        <p>Create a binary tree, add nodes manually, and print inorder traversal.</p>
+        <div class="workspace">
+          <textarea class="editor" id="code1"></textarea>
+          <div class="actions">
+            <button class="btn primary" onclick="checkCode(1)">Check</button>
+            <button class="btn outline" onclick="toggleSolutions(1)">View Solutions</button>
+            <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+          </div>
+          <pre id="result1" class="result">Waiting for your code…</pre>
+          <div id="sol1" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+  <strong>Solution — Basic Binary Tree</strong>
+  <button class="btn xs" onclick="copySol(1)">Copy</button>
+</div>
+<pre>class Node{ int data; Node left,right; Node(int d){data=d; left=right=null;} }
+public class Main{
+  Node root;
+  void inorder(Node n){ if(n==null) return; inorder(n.left); System.out.print(n.data+" "); inorder(n.right); }
+  public static void main(String[] args){
+    Main t=new Main();
+    t.root=new Node(10); t.root.left=new Node(5); t.root.right=new Node(15);
+    t.inorder(t.root);
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+
+      <!-- Q2 -->
+      <details class="q">
+        <summary><strong>Q2.</strong> Preorder, Inorder & Postorder traversal (Medium)</summary>
+        <p>Print all three traversals of a given binary tree.</p>
+        <div class="workspace">
+          <textarea class="editor" id="code2"></textarea>
+          <div class="actions">
+            <button class="btn primary" onclick="checkCode(2)">Check</button>
+            <button class="btn outline" onclick="toggleSolutions(2)">View Solutions</button>
+            <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+          </div>
+          <pre id="result2" class="result">Waiting for your code…</pre>
+          <div id="sol2" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+  <strong>Solution — All Traversals</strong>
+  <button class="btn xs" onclick="copySol(2)">Copy</button>
+</div>
+<pre>class Node{ int data; Node left,right; Node(int d){data=d; left=right=null;} }
+public class Main{
+  Node root;
+  void preorder(Node n){ if(n==null) return; System.out.print(n.data+" "); preorder(n.left); preorder(n.right); }
+  void inorder(Node n){ if(n==null) return; inorder(n.left); System.out.print(n.data+" "); inorder(n.right); }
+  void postorder(Node n){ if(n==null) return; postorder(n.left); postorder(n.right); System.out.print(n.data+" "); }
+  public static void main(String[] args){
+    Main t=new Main();
+    t.root=new Node(10); t.root.left=new Node(5); t.root.right=new Node(15);
+    System.out.print("Preorder: "); t.preorder(t.root); System.out.println();
+    System.out.print("Inorder: "); t.inorder(t.root); System.out.println();
+    System.out.print("Postorder: "); t.postorder(t.root);
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+
+      <!-- Q3 -->
+      <details class="q">
+        <summary><strong>Q3.</strong> Level-order traversal (Medium)</summary>
+        <p>Print nodes level by level using a queue.</p>
+        <div class="workspace">
+          <textarea class="editor" id="code3"></textarea>
+          <div class="actions">
+            <button class="btn primary" onclick="checkCode(3)">Check</button>
+            <button class="btn outline" onclick="toggleSolutions(3)">View Solutions</button>
+            <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+          </div>
+          <pre id="result3" class="result">Waiting for your code…</pre>
+          <div id="sol3" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+  <strong>Solution — Level-order</strong>
+  <button class="btn xs" onclick="copySol(3)">Copy</button>
+</div>
+<pre>import java.util.*;
+class Node{ int data; Node left,right; Node(int d){data=d; left=right=null;} }
+public class Main{
+  Node root;
+  void levelOrder(Node root){
+    if(root==null) return;
+    Queue<Node> q=new LinkedList<>();
+    q.add(root);
+    while(!q.isEmpty()){
+      Node temp=q.remove();
+      System.out.print(temp.data+" ");
+      if(temp.left!=null) q.add(temp.left);
+      if(temp.right!=null) q.add(temp.right);
+    }
+  }
+  public static void main(String[] args){
+    Main t=new Main();
+    t.root=new Node(10); t.root.left=new Node(5); t.root.right=new Node(15);
+    t.levelOrder(t.root);
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+
+      <!-- Q4 -->
+      <details class="q">
+        <summary><strong>Q4.</strong> Count nodes in binary tree (Easy)</summary>
+        <p>Return total number of nodes in a binary tree.</p>
+        <div class="workspace">
+          <textarea class="editor" id="code4"></textarea>
+          <div class="actions">
+            <button class="btn primary" onclick="checkCode(4)">Check</button>
+            <button class="btn outline" onclick="toggleSolutions(4)">View Solutions</button>
+            <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+          </div>
+          <pre id="result4" class="result">Waiting for your code…</pre>
+          <div id="sol4" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+  <strong>Solution — Count Nodes</strong>
+  <button class="btn xs" onclick="copySol(4)">Copy</button>
+</div>
+<pre>class Node{ int data; Node left,right; Node(int d){data=d; left=right=null;} }
+public class Main{
+  Node root;
+  int count(Node n){ if(n==null) return 0; return 1+count(n.left)+count(n.right); }
+  public static void main(String[] args){
+    Main t=new Main();
+    t.root=new Node(10); t.root.left=new Node(5); t.root.right=new Node(15);
+    System.out.println("Total nodes: "+t.count(t.root));
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+
+      <!-- Q5 -->
+      <details class="q">
+        <summary><strong>Q5.</strong> Height of Binary Tree (Easy)</summary>
+        <p>Return height (max depth) of a binary tree.</p>
+        <div class="workspace">
+          <textarea class="editor" id="code5"></textarea>
+          <div class="actions">
+            <button class="btn primary" onclick="checkCode(5)">Check</button>
+            <button class="btn outline" onclick="toggleSolutions(5)">View Solutions</button>
+            <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+          </div>
+          <pre id="result5" class="result">Waiting for your code…</pre>
+          <div id="sol5" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+  <strong>Solution — Tree Height</strong>
+  <button class="btn xs" onclick="copySol(5)">Copy</button>
+</div>
+<pre>class Node{ int data; Node left,right; Node(int d){data=d; left=right=null;} }
+public class Main{
+  Node root;
+  int height(Node n){ if(n==null) return 0; return 1+Math.max(height(n.left),height(n.right)); }
+  public static void main(String[] args){
+    Main t=new Main();
+    t.root=new Node(10); t.root.left=new Node(5); t.root.right=new Node(15);
+    System.out.println("Height: "+t.height(t.root));
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+
+    </section>
+
+    <footer class="footer">Java DSA — Binary Trees | Practice & Learn</footer>
+  </main>
+
+  <script>
+    // Show explanation when code clicked
+    document.querySelectorAll('.code code').forEach(code=>{
+      code.addEventListener('click',()=>document.getElementById('lineExplain').textContent=code.dataset.explain)
+    });
+
+    // Toggle solution
+    function toggleSolutions(id){
+      const sol=document.getElementById('sol'+id);
+      sol.classList.toggle('hidden');
+    }
+
+    // Copy solution
+    function copySol(id){
+      const code
+      = document.getElementById('sol'+id).querySelector('pre').innerText;
+      navigator.clipboard.writeText(code).then(()=>alert('Solution copied!'));
+    }
+
+    // Dummy check function
+    function checkCode(id){
+      const userCode = document.getElementById('code'+id).value;
+      if(userCode.trim()==='') {
+        document.getElementById('result'+id).textContent = 'Please write your code first.';
+      } else {
+        document.getElementById('result'+id).textContent = 'Code looks good! (Manual checking in real compiler required)';
+      }
+    }
+
+    // Open online compiler
+    function openCompiler(){
+      window.open('https://www.jdoodle.com/online-java-compiler/', '_blank');
+    }
+  </script>
+
+</body>
+</html>

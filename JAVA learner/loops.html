@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Java DSA — Loops</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="topbar">
+    <a class="brand" href="index.html">Java DSA</a>
+    <a class="toplink" href="index.html#learning">All Topics</a>
+  </nav>
+
+  <main class="container topic">
+    <!-- Topic Intro -->
+    <section class="card">
+      <h1>Loops (for, while, do‑while)</h1>
+      <p class="muted">Why important? Loops repeat actions. In DSA we use them to scan arrays, compute sums, build patterns, and control algorithms.</p>
+      <div class="info-grid">
+        <div class="info"><strong>Use when</strong><br> You need to repeat steps until a condition is met.</div>
+        <div class="info"><strong>Types</strong><br> for • while • do‑while</div>
+        <div class="info"><strong>Analogy</strong><br> Brushing each tooth one by one 🦷</div>
+      </div>
+    </section>
+
+    <!-- Theory Section -->
+    <section class="card">
+      <h2>🧠 Theory</h2>
+      <pre class="theory">for (start; check; step) { work }  → know how many times
+while (check) { work }             → repeat while true
+do { work } while (check);         → runs at least once
+</pre>
+    </section>
+
+    <!-- Example with line-by-line explain -->
+    <section class="card">
+      <h2>👀 Example (tap any line)</h2>
+      <pre class="code" id="example"><code data-explain="Comment: it doesn't run.">// Print numbers 1..5</code>
+<code data-explain="Start i at 1.">for (int i = 1; i <= 5; i++) {</code>
+<code data-explain="Show current i on screen.">    System.out.println(i);</code>
+<code data-explain="Increase i by 1.">}</code>
+
+<code data-explain="Sum 1..n using while.">int n = 5, sum = 0, j = 1;</code>
+<code data-explain="Repeat while j <= n.">while (j <= n) {</code>
+<code data-explain="Add j to total.">    sum += j;</code>
+<code data-explain="Go to next number.">    j++;</code>
+<code data-explain="Close while.">}</code>
+<code data-explain="Print final total (15).">System.out.println(sum);</code></pre>
+      <div id="lineExplain" class="explain">Click a code line to see its meaning here.</div>
+    </section>
+
+    <!-- Practice Section: 5 questions -->
+    <section class="card">
+      <h2>🧪 Practice (5 Questions)</h2>
+
+      <details class="q">
+        <summary><strong>Q1.</strong> Print numbers from 1 to N (Easy)</summary>
+        <p>Read an integer <code>N</code> and print <code>1..N</code>, each on a new line.</p>
+        <div class="workspace">
+          <textarea class="editor" id="code1" spellcheck="false" placeholder="Write Java here (use class Main)"></textarea>
+          <div class="actions">
+            <button class="btn" onclick="check(1)">Submit</button>
+            <button class="btn outline" onclick="toggleSolutions(1)">View Solutions</button>
+            <a class="btn ghost" target="_blank" href="https://onecompiler.com/java">Open Online Compiler</a>
+          </div>
+          <pre class="result" id="result1">Waiting for your code…</pre>
+          <div class="solutions hidden" id="sol1">
+            <div class="solution">
+              <div class="solution-head">Solution A — for loop <button class="btn xs" onclick="copySol(1,0)">Copy</button></div>
+              <pre>import java.util.*;
+public class Main{
+  public static void main(String[] args){
+    Scanner sc=new Scanner(System.in);
+    int N=sc.nextInt();
+    for(int i=1;i<=N;i++) System.out.println(i);
+  }
+}</pre>
+            </div>
+            <div class="solution">
+              <div class="solution-head">Solution B — while loop <button class="btn xs" onclick="copySol(1,1)">Copy</button></div>
+              <pre>import java.util.*;
+public class Main{
+  public static void main(String[] args){
+    Scanner sc=new Scanner(System.in);
+    int N=sc.nextInt();
+    int i=1; while(i<=N){ System.out.println(i); i++; }
+  }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><strong>Q2.</strong> Sum of first N numbers (Easy)</summary>
+        <p>Input <code>N</code>, output <code>1+2+...+N</code>.</p>
+        <div class="workspace">
+          <textarea class="editor" id="code2"></textarea>
+          <div class="actions">
+            <button class="btn" onclick="check(2)">Submit</button>
+            <button class="btn outline" onclick="toggleSolutions(2)">View Solutions</button>
+            <a class="btn ghost" target="_blank" href="https://onecompiler.com/java">Open Online Compiler</a>
+          </div>
+          <pre class="result" id="result2">Waiting for your code…</pre>
+          <div class="solutions hidden" id="sol2">
+            <div class="solution">
+              <div class="solution-head">Loop approach <button class="btn xs" onclick="copySol(2,0)">Copy</button></div>
+              <pre>import java.util.*;
+public class Main{
+  public static void main(String[] args){
+    Scanner sc=new Scanner(System.in);
+    long N=sc.nextLong(); long s=0;
+    for(long i=1;i<=N;i++) s+=i;
+    System.out.println(s);
+  }
+}</pre>
+            </div>
+            <div class="solution">
+              <div class="solution-head">Math formula <button class="btn xs" onclick="copySol(2,1)">Copy</button></div>
+              <pre>import java.util.*;
+public class Main{
+  public static void main(String[] args){
+    Scanner sc=new Scanner(System.in);
+    long N=sc.nextLong();
+    System.out.println(N*(N+1)/2);
+  }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><strong>Q3.</strong> Multiplication table (Medium)</summary>
+        <p>Read <code>N</code> and print <code>N×1..N×10</code>.</p>
+        <div class="workspace">
+          <textarea class="editor" id="code3"></textarea>
+          <div class="actions">
+            <button class="btn" onclick="check(3)">Submit</button>
+            <button class="btn outline" onclick="toggleSolutions(3)">View Solutions</button>
+            <a class="btn ghost" target="_blank" href="https://onecompiler.com/java">Open Online Compiler</a>
+          </div>
+          <pre class="result" id="result3">Waiting for your code…</pre>
+          <div class="solutions hidden" id="sol3">
+            <div class="solution">
+              <div class="solution-head">for loop <button class="btn xs" onclick="copySol(3,0)">Copy</button></div>
+              <pre>import java.util.*;
+public class Main{
+  public static void main(String[] args){
+    Scanner sc=new Scanner(System.in);
+    int N=sc.nextInt();
+    for(int i=1;i<=10;i++) System.out.println(N*i);
+  }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><strong>Q4.</strong> Count digits of a number (Medium)</summary>
+        <p>Input <code>X</code>, output the number of digits.</p>
+        <div class="workspace">
+          <textarea class="editor" id="code4"></textarea>
+          <div class="actions">
+                        <button class="btn" onclick="check(4)">Submit</button>
+            <button class="btn outline" onclick="toggleSolutions(4)">View Solutions</button>
+            <a class="btn ghost" target="_blank" href="https://onecompiler.com/java">Open Online Compiler</a>
+          </div>
+          <pre class="result" id="result4">Waiting for your code…</pre>
+          <div class="solutions hidden" id="sol4">
+            <div class="solution">
+              <div class="solution-head">Division method <button class="btn xs" onclick="copySol(4,0)">Copy</button></div>
+              <pre>import java.util.*;
+public class Main{
+  public static void main(String[] args){
+    Scanner sc=new Scanner(System.in);
+    long x=sc.nextLong();
+    if(x==0){ System.out.println(1); return; }
+    x=Math.abs(x); int c=0; while(x>0){ c++; x/=10; }
+    System.out.println(c);
+  }
+}</pre>
+            </div>
+            <div class="solution">
+              <div class="solution-head">String method <button class="btn xs" onclick="copySol(4,1)">Copy</button></div>
+              <pre>import java.util.*;
+public class Main{
+  public static void main(String[] args){
+    Scanner sc=new Scanner(System.in);
+    String s=sc.next();
+    if(s.startsWith("-")) s=s.substring(1);
+    System.out.println(s.length());
+  }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="q">
+        <summary><strong>Q5.</strong> Reverse a number (Hard)</summary>
+        <p>Input <code>X</code>, print reversed digits.</p>
+        <div class="workspace">
+          <textarea class="editor" id="code5"></textarea>
+          <div class="actions">
+            <button class="btn" onclick="check(5)">Submit</button>
+            <button class="btn outline" onclick="toggleSolutions(5)">View Solutions</button>
+            <a class="btn ghost" target="_blank" href="https://onecompiler.com/java">Open Online Compiler</a>
+          </div>
+          <pre class="result" id="result5">Waiting for your code…</pre>
+          <div class="solutions hidden" id="sol5">
+            <div class="solution">
+              <div class="solution-head">while + mod <button class="btn xs" onclick="copySol(5,0)">Copy</button></div>
+              <pre>import java.util.*;
+public class Main{
+  public static void main(String[] args){
+    Scanner sc=new Scanner(System.in);
+    long x=sc.nextLong(); long sign=x<0?-1:1; x=Math.abs(x);
+    long rev=0; while(x>0){ long d=x%10; rev=rev*10+d; x/=10; }
+    System.out.println(rev*sign);
+  }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </details>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Keep practicing. Solutions are here when you need them. ✨</p>
+  </footer>
+
+  <script>
+  // Example: show line explanation when clicking code lines
+  document.getElementById('example').addEventListener('click', (e)=>{
+    if(e.target.tagName === 'CODE'){
+      document.getElementById('lineExplain').textContent = e.target.getAttribute('data-explain');
+    }
+  });
+
+  // Toggle solutions panel visibility
+  function toggleSolutions(idx){
+    const el = document.getElementById('sol' + idx);
+    if(!el) return;
+    el.classList.toggle('hidden');
+  }
+
+  // Copy specific solution's pre text to clipboard
+  function copySol(q, which){
+    const root = document.getElementById('sol' + q);
+    if(!root) return alert('No solution found');
+    const blocks = root.querySelectorAll('pre');
+    const txt = blocks[which] ? blocks[which].innerText : blocks[0].innerText;
+    navigator.clipboard.writeText(txt).then(()=> {
+      alert('Solution copied to clipboard');
+    }).catch(()=> {
+      alert('Copy failed — select and copy manually');
+    });
+  }
+
+  // Lightweight heuristic checker — encourages correct structure and gives hints
+  function check(idx){
+    const box = document.getElementById('code' + idx);
+    const out = document.getElementById('result' + idx);
+    if(!box || !out) return;
+    const code = (box.value || '').trim();
+    const hints = [];
+
+    // Basic structure checks
+    if(!/class\s+Main/.test(code) && !/public\s+class\s+Main/.test(code)) hints.push('Include `class Main { ... }`');
+    if(!/static\s+void\s+main\s*\(\s*String\s*\[\s*\]\s*args\s*\)/.test(code)) hints.push('Include `public static void main(String[] args)`');
+
+    // Question-specific hints (simple)
+    if(idx === 1){ // 1..N
+      if(!/for\s*\(|while\s*\(/.test(code)) hints.push('Use a loop (for/while) to print 1..N');
+      if(!/System\.out\.println/.test(code)) hints.push('Use System.out.println(...) to print results');
+    }
+    if(idx === 2){ // sum 1..N
+      if(!/(for\s*\(|while\s*\(|\*\s*\(\s*N\s*\+\s*1\s*\)\s*\/\s*2)/.test(code)) hints.push('Use a loop OR the formula N*(N+1)/2');
+    }
+    if(idx === 3){ // multiplication table
+      if(!/for\s*\(.*i.*=/.test(code)) hints.push('Use a for loop from 1 to 10');
+    }
+    if(idx === 4){ // count digits
+      if(!/(while\s*\(|String\s+\.length\(|s\.length\(\))/i.test(code)) hints.push('Try dividing by 10 in a loop or convert to string and use length()');
+    }
+    if(idx === 5){ // reverse number
+      if(!/(%|reverse|StringBuilder)/.test(code)) hints.push('Use %10 and /10 in a loop or use string reversal');
+
+    }
+
+    if(hints.length){
+      out.innerText = '❌ Not yet — hints:\\n' + hints.map(h=>'• ' + h).join('\\n') + '\\nTip: click "View Solutions" to see full approaches.';
+      out.style.color = '';
+    } else {
+      out.innerText = '✅ Basic checks passed. Good job — run your code in the Online Compiler to fully verify with sample inputs.';
+      out.style.color = '';
+    }
+  }
+  </script>
+</body>
+</html>

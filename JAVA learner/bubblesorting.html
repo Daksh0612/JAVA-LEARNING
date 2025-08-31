@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java DSA — Bubble Sort</title>
+
+<style>
+:root{
+  --bg:#071026; --panel:#0f1826; --muted:#9fb3d6; --text:#eaf3ff;
+  --accent1:#6ea8fe; --accent2:#7ef0c1; --card-border:#1a2742;
+  --ok:#49d17d; --bad:#ff6b6b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg,#061024,#071026 50%);
+  color:var(--text); -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+}
+.topbar{display:flex; align-items:center; justify-content:space-between; padding:12px 20px; background:var(--panel); border-bottom:1px solid var(--card-border);}
+.brand{ color:var(--text); font-weight:800; text-decoration:none; font-size:18px; }
+.toplink{ color:var(--muted); text-decoration:none; font-size:14px; margin-left:14px; }
+.container{ max-width:1100px; margin:20px auto; padding:0 16px 56px; }
+.card{ background:rgba(8,16,28,0.7); border:1px solid var(--card-border); border-radius:12px; padding:16px; margin:14px 0; box-shadow:0 6px 18px rgba(6,12,20,0.25); }
+.muted{ color:var(--muted); }
+.code{ background:#071826; border-radius:10px; padding:14px; border:1px solid var(--card-border); overflow:auto; font-family:ui-monospace,monospace; font-size:13px; line-height:1.5; }
+.code code{ display:block; padding:2px 6px; border-radius:6px; cursor:pointer; }
+.code code:hover{ background:rgba(255,255,255,0.02); }
+.explain{ margin-top:10px; padding:10px; border-radius:10px; background:rgba(6,12,20,0.45); border:1px dashed rgba(40,60,100,0.2); color:var(--muted); }
+.q{ background:linear-gradient(180deg, rgba(10,18,30,0.6), rgba(8,14,26,0.6)); border:1px solid var(--card-border); border-radius:12px; padding:12px; margin:12px 0; }
+.workspace{ margin-top:10px; display:block; }
+.editor{ width:100%; min-height:140px; resize:vertical; background:#081424; color:var(--text); border:1px solid rgba(30,45,70,0.25); border-radius:10px; padding:12px; font-family:ui-monospace,monospace; font-size:13px; }
+.actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; align-items:center; }
+.btn{ display:inline-block; padding:8px 12px; border-radius:10px; background:#123055; color:var(--text); text-decoration:none; border:1px solid transparent; cursor:pointer; font-weight:700; }
+.btn.primary{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:#051025; }
+.btn.outline{ background:transparent; border:1px solid rgba(100,130,180,0.16); color:var(--text); }
+.btn.ghost{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03); }
+.btn.xs{ padding:6px 8px; font-size:13px; border-radius:8px; }
+.result{ margin-top:10px; background:rgba(6,12,20,0.45); border:1px solid rgba(30,45,70,0.25); padding:10px; border-radius:8px; color:var(--muted); white-space:pre-wrap; }
+.solutions.hidden{ display:none; }
+.solution{ margin-top:8px; background:rgba(6,12,20,0.45); border-radius:8px; padding:10px; border:1px solid rgba(20,30,50,0.2); color:var(--text); }
+.footer{ text-align:center; color:var(--muted); padding:20px 10px; font-size:14px; }
+@media (max-width:900px){ .topbar{ padding:10px 12px; } .container{ padding:0 12px; } .editor{ min-height:120px; } }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a class="brand" href="index.html">Java DSA</a>
+  <div>
+    <a class="toplink" href="index.html#learning">All Topics</a>
+  </div>
+</nav>
+
+<main class="container">
+
+<section class="card">
+  <h1>Bubble Sort</h1>
+  <p class="muted">Bubble Sort is a simple comparison-based sorting algorithm. Repeatedly swap adjacent elements if they are in wrong order.</p>
+  <div class="code">
+<code data-explain='Basic bubble sort implementation.'>for(int i=0;i<n-1;i++){ for(int j=0;j<n-i-1;j++){ if(arr[j]>arr[j+1]){ int temp=arr[j]; arr[j]=arr[j+1]; arr[j+1]=temp; }}}</code>
+<code data-explain='Optimized bubble sort with early exit.'>boolean swapped; for(int i=0;i<n-1;i++){ swapped=false; for(int j=0;j<n-i-1;j++){ if(arr[j]>arr[j+1]){ int temp=arr[j]; arr[j]=arr[j+1]; arr[j+1]=temp; swapped=true; } } if(!swapped) break; }</code>
+  </div>
+  <div id="lineExplain" class="explain">Click any code line above to see its meaning here.</div>
+</section>
+
+<section class="card">
+<h2>🧪 Practice (5 Questions)</h2>
+
+<!-- Q1 Simple sort -->
+<details class="q">
+<summary><strong>Q1.</strong> Sort an array in ascending order (Easy)</summary>
+<p>Write bubble sort to sort an integer array in ascending order.</p>
+<div class="workspace">
+<textarea class="editor" id="code1"></textarea>
+<div class="actions">
+  <button class="btn primary" onclick="checkCode(1)">Check</button>
+  <button class="btn outline" onclick="toggleSolutions(1)">View Solutions</button>
+  <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+</div>
+<pre id="result1" class="result">Waiting for your code…</pre>
+<div id="sol1" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+<strong>Solution — Bubble Sort Ascending</strong>
+<button class="btn xs" onclick="copySol(1)">Copy</button>
+</div>
+<pre>public class Main{
+  public static void main(String[] args){
+    int arr[]={5,2,9,1,5};
+    int n=arr.length;
+    for(int i=0;i<n-1;i++){
+      for(int j=0;j<n-i-1;j++){
+        if(arr[j]>arr[j+1]){
+          int temp=arr[j]; arr[j]=arr[j+1]; arr[j+1]=temp;
+        }
+      }
+    }
+    for(int val:arr) System.out.print(val+" ");
+  }
+}</pre>
+</div>
+</div>
+</details>
+
+<!-- Q2 Descending -->
+<details class="q">
+<summary><strong>Q2.</strong> Sort an array in descending order (Easy)</summary>
+<p>Write bubble sort to sort an array in descending order.</p>
+<div class="workspace">
+<textarea class="editor" id="code2"></textarea>
+<div class="actions">
+  <button class="btn primary" onclick="checkCode(2)">Check</button>
+  <button class="btn outline" onclick="toggleSolutions(2)">View Solutions</button>
+  <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+</div>
+<pre id="result2" class="result">Waiting for your code…</pre>
+<div id="sol2" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+<strong>Solution — Bubble Sort Descending</strong>
+<button class="btn xs" onclick="copySol(2)">Copy</button>
+</div>
+<pre>public class Main{
+  public static void main(String[] args){
+    int arr[]={5,2,9,1,5};
+    int n=arr.length;
+    for(int i=0;i<n-1;i++){
+      for(int j=0;j<n-i-1;j++){
+        if(arr[j]<arr[j+1]){
+          int temp=arr[j]; arr[j]=arr[j+1]; arr[j+1]=temp;
+        }
+      }
+    }
+    for(int val:arr) System.out.print(val+" ");
+  }
+}</pre>
+</div>
+</div>
+</details>
+
+<!-- Q3 Swap count -->
+<details class="q">
+<summary><strong>Q3.</strong> Count number of swaps (Medium)</summary>
+<p>Write bubble sort and count how many swaps are performed.</p>
+<div class="workspace">
+<textarea class="editor" id="code3"></textarea>
+<div class="actions">
+  <button class="btn primary" onclick="checkCode(3)">Check</button>
+  <button class="btn outline" onclick="toggleSolutions(3)">View Solutions</button>
+  <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+</div>
+<pre id="result3" class="result">Waiting for your code…</pre>
+<div id="sol3" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+<strong>Solution — Bubble Sort with Swap Count</strong>
+<button class="btn xs" onclick="copySol(3)">Copy</button>
+</div>
+<pre>public class Main{
+  public static void main(String[] args){
+    int arr[]={5,2,9,1,5};
+    int n=arr.length, swaps=0;
+    for(int i=0;i<n-1;i++){
+      for(int j=0;j<n-i-1;j++){
+        if(arr[j]>arr[j+1]){
+          int temp=arr[j]; arr[j]=arr[j+1]; arr[j+1]=temp; swaps++;
+        }
+      }
+    }
+    System.out.println("Total swaps: "+swaps);
+    for(int val:arr) System.out.print(val+" ");
+  }
+}</pre>
+</div>
+</div>
+</details>
+
+<!-- Q4 Optimized early exit -->
+<details class="q">
+<summary><strong>Q4.</strong> Optimized Bubble Sort (Medium)</summary>
+<p>Implement bubble sort with early exit if no swaps occurred.</p>
+<div class="workspace">
+<textarea class="editor" id="code4"></textarea>
+<div class="actions">
+  <button class="btn primary" onclick="checkCode(4)">Check</button>
+  <button class="btn outline" onclick="toggleSolutions(4)">View Solutions</button>
+  <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+</div>
+<pre id="result4" class="result">Waiting for your code…</pre>
+<div id="sol4" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+<strong>Solution — Optimized Bubble Sort</strong>
+<button class="btn xs" onclick="copySol(4)">Copy</button>
+</div>
+<pre>public class Main{
+  public static void main(String[] args){
+    int arr[]={5,2,9,1,5};
+    int n=arr.length;
+    for(int i=0;i<n-1;i++){
+      boolean swapped=false;
+      for(int j=0;j<n-i-1;j++){
+        if(arr[j]>arr[j+1]){
+          int temp=arr[j]; arr[j]=arr[j+1]; arr[j+1]=temp; swapped=true;
+        }
+      }
+      if(!swapped) break;
+    }
+    for(int val:arr) System.out.print(val+" ");
+  }
+}</pre>
+</div>
+</div>
+</details>
+
+<!-- Q5 String sorting -->
+<details class="q">
+<summary><strong>Q5.</strong> Sort array of strings (Medium)</summary>
+<p>Use bubble sort to sort strings in lexicographical order.</p>
+<div class="workspace">
+<textarea class="editor" id="code5"></textarea>
+<div class="actions">
+  <button class="btn primary" onclick="checkCode(5)">Check</button>
+  <button class="btn outline" onclick="toggleSolutions(5)">View Solutions</button>
+  <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+</div>
+<pre id="result5" class="result">Waiting for your code…</pre>
+<div id="sol5" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+<strong>Solution — Bubble Sort Strings</strong>
+<button class="btn xs" onclick="copySol(5)">Copy</button>
+</div>
+<pre>public class Main{
+  public static void main(String[] args){
+    String arr[]={"apple","orange","banana","kiwi"};
+    int n=arr.length;
+    for(int i=0;i<n-1;i++){
+      for(int j=0;j<n-i-1;j++){
+        if(arr[j].compareTo(arr[j+1])>0){
+          String temp=arr[j]; arr[j]=arr[j+1]; arr[j+1]=temp;
+        }
+      }
+    }
+    for(String s:arr) System.out.print(s+" ");
+  }
+}</pre>
+</div>
+</div>
+</details>
+
+</section>
+</main>
+
+<footer class="footer">
+Java DSA Learning Platform — Bubble Sort Examples & Practice
+</footer>
+
+<script>
+const codeLines = document.querySelectorAll('.code code');
+const lineExplain = document.getElementById('lineExplain');
+codeLines.forEach(line=>{
+  line.addEventListener('click',()=>{ lineExplain.textContent=line.dataset.explain; });
+});
+
+function toggleSolutions(num){
+  const sol = document.getElementById('sol'+num);
+  sol.classList.toggle('hidden');
+}
+
+function copySol(num){
+  const sol = document.getElementById('sol'+num).querySelector('pre').innerText;
+  navigator.clipboard.writeText(sol);
+  alert('Solution copied!');
+}
+
+function checkCode(num){
+  const code = document.getElementById('code'+num).value;
+  document.getElementById('result'+num).textContent = "Your code is:\n"+code+"\n\n(Check manually in Java IDE)";
+}
+
+function openCompiler(){
+  window.open('https://www.jdoodle.com/online-java-compiler/','_blank');
+}
+</script>
+
+</body>
+</html>

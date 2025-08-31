@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java DSA — Stacks</title>
+
+<style>
+  /* Inline CSS matching your site theme */
+  :root{
+    --bg:#071026; --panel:#0f1826; --muted:#9fb3d6; --text:#eaf3ff;
+    --accent1:#6ea8fe; --accent2:#7ef0c1; --card-border:#1a2742;
+    --ok:#49d17d; --bad:#ff6b6b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,#061024,#071026 50%);
+    color:var(--text); -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.45;
+  }
+
+  /* Topbar */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 20px; background:var(--panel); border-bottom:1px solid var(--card-border);
+  }
+  .brand{ color:var(--text); font-weight:800; text-decoration:none; font-size:18px; }
+  .toplink{ color:var(--muted); text-decoration:none; font-size:14px; margin-left:14px; }
+
+  /* Container & cards */
+  .container{ max-width:1100px; margin:20px auto; padding:0 16px 56px; }
+  .card{ background:rgba(8,16,28,0.7); border:1px solid var(--card-border); border-radius:12px; padding:16px; margin:14px 0; box-shadow:0 6px 18px rgba(6,12,20,0.25); }
+  .muted{ color:var(--muted); }
+
+  /* Info grid */
+  .info-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin-top:12px; }
+  .info{ background:rgba(6,12,20,0.4); border:1px solid rgba(30,45,70,0.25); padding:10px; border-radius:10px; color:var(--text); font-size:14px; }
+
+  /* Code blocks & example */
+  .theory-pre{ white-space:pre-wrap; color:var(--text); font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace; }
+  .code{ background:#071826; border-radius:10px; padding:14px; border:1px solid var(--card-border); overflow:auto; font-family:ui-monospace,monospace; font-size:13px; line-height:1.5; }
+  .code code{ display:block; padding:2px 6px; border-radius:6px; cursor:pointer; }
+  .code code:hover{ background:rgba(255,255,255,0.02); }
+
+  .explain{ margin-top:10px; padding:10px; border-radius:10px; background:rgba(6,12,20,0.45); border:1px dashed rgba(40,60,100,0.2); color:var(--muted); }
+
+  /* Practice specifics */
+  .q{ background:linear-gradient(180deg, rgba(10,18,30,0.6), rgba(8,14,26,0.6)); border:1px solid var(--card-border); border-radius:12px; padding:12px; margin:12px 0; }
+  .workspace{ margin-top:10px; display:block; }
+  .editor{ width:100%; min-height:140px; resize:vertical; background:#081424; color:var(--text); border:1px solid rgba(30,45,70,0.25); border-radius:10px; padding:12px; font-family:ui-monospace,monospace; font-size:13px; }
+  .actions{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; align-items:center; }
+  .btn{ display:inline-block; padding:8px 12px; border-radius:10px; background:#123055; color:var(--text); text-decoration:none; border:1px solid transparent; cursor:pointer; font-weight:700; }
+  .btn.primary{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:#051025; }
+  .btn.outline{ background:transparent; border:1px solid rgba(100,130,180,0.16); color:var(--text); }
+  .btn.ghost{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03); }
+  .btn.xs{ padding:6px 8px; font-size:13px; border-radius:8px; }
+
+  .result{ margin-top:10px; background:rgba(6,12,20,0.45); border:1px solid rgba(30,45,70,0.25); padding:10px; border-radius:8px; color:var(--muted); white-space:pre-wrap; }
+  .solutions.hidden{ display:none; }
+  .solution{ margin-top:8px; background:rgba(6,12,20,0.45); border-radius:8px; padding:10px; border:1px solid rgba(20,30,50,0.2); color:var(--text); }
+
+  /* Compiler iframe */
+  .compiler-wrap{ margin-top:14px; display:none; }
+  .compiler-frame{ width:100%; height:420px; border-radius:8px; border:1px solid rgba(30,45,70,0.16); overflow:hidden; }
+
+  /* Footer */
+  .footer{ text-align:center; color:var(--muted); padding:20px 10px; font-size:14px; }
+  @media (max-width:900px){
+    .topbar{ padding:10px 12px; }
+    .container{ padding:0 12px; }
+    .editor{ min-height:120px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <nav class="topbar">
+    <a class="brand" href="index.html">Java DSA</a>
+    <div>
+      <a class="toplink" href="index.html#learning">All Topics</a>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- Intro -->
+    <section class="card">
+      <h1>Stacks (LIFO)</h1>
+      <p class="muted">Why important? Stacks follow Last-In-First-Out (LIFO). They power function call stacks, undo/redo, expression parsing, and many DSA algorithms.</p>
+      <div class="info-grid">
+        <div class="info"><strong>Use when</strong><br> Need reverse-order access (undo, back button).</div>
+        <div class="info"><strong>Operations</strong><br> push • pop • peek • isEmpty</div>
+        <div class="info"><strong>Types</strong><br> Array-based • Linked-list based • Built-in Stack</div>
+      </div>
+    </section>
+
+    <!-- Theory + interactive example -->
+    <section class="card">
+      <h2>🧠 Theory & Interactive Examples</h2>
+
+      <div class="code" id="example">
+<code data-explain='Declare fixed-size array stack and top pointer.'>int[] stack = new int[5]; int top = -1;</code>
+<code data-explain='Push method: check overflow then increment top and assign.'>void push(int x){ if(top==stack.length-1){ System.out.println("Overflow"); } else stack[++top]=x; }</code>
+<code data-explain='Pop method: check empty then return value and decrement top.'>int pop(){ if(top==-1) return -1; return stack[top--]; }</code>
+<code data-explain='Peek: return current top without removing.'>int peek(){ if(top==-1) return -1; return stack[top]; }</code>
+<code data-explain='Using Java built-in Stack class (generic).'>Stack<Integer> st = new Stack<>();</code>
+<code data-explain='Push & pop operations on built-in stack.'>st.push(10); st.push(20); System.out.println(st.pop());</code>
+<code data-explain='Using stack to reverse a string: push chars then pop to build reversed string.'>for(char c:s.toCharArray()) st.push(c); while(!st.isEmpty()) rev+=st.pop();</code>
+      </div>
+
+      <div id="lineExplain" class="explain">Click any code line above to see its meaning here.</div>
+    </section>
+
+    <!-- Practice Section -->
+    <section class="card">
+      <h2>🧪 Practice (6 Questions)</h2>
+
+      <!-- Q1 -->
+      <details class="q">
+        <summary><strong>Q1.</strong> Implement a stack using an array (Easy)</summary>
+        <p>Write a class `Main` with push, pop and peek (use int stack size 100 or as needed).</p>
+        <div class="workspace">
+          <textarea class="editor" id="code1" placeholder="Write Java here (use class Main)"></textarea>
+          <div class="actions">
+            <button class="btn primary" onclick="checkCode(1)">Check</button>
+            <button class="btn outline" onclick="toggleSolutions(1)">View Solutions</button>
+            <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+          </div>
+          <pre id="result1" class="result">Waiting for your code…</pre>
+
+          <div id="sol1" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+  <strong>Solution — Array based stack</strong>
+  <button class="btn xs" onclick="copySol(1)">Copy</button>
+</div>
+<pre>import java.util.*;
+public class Main {
+  int top = -1;
+  int[] stack = new int[100];
+
+  void push(int x){
+    if(top==stack.length-1) System.out.println("Overflow");
+    else stack[++top] = x;
+  }
+
+  int pop(){
+    if(top==-1) return Integer.MIN_VALUE;
+    return stack[top--];
+  }
+
+  int peek(){
+    if(top==-1) return Integer.MIN_VALUE;
+    return stack[top];
+  }
+
+  public static void main(String[] args){
+    Main s = new Main();
+    s.push(10); s.push(20); System.out.println(s.peek()); System.out.println(s.pop());
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+
+      <!-- Q2 -->
+      <details class="q">
+        <summary><strong>Q2.</strong> Reverse a string using a stack (Easy)</summary>
+        <p>Given string S, use stack to reverse it and print reversed string.</p>
+        <div class="workspace">
+          <textarea class="editor" id="code2"></textarea>
+          <div class="actions">
+            <button class="btn primary" onclick="checkCode(2)">Check</button>
+            <button class="btn outline" onclick="toggleSolutions(2)">View Solutions</button>
+            <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+          </div>
+          <pre id="result2" class="result">Waiting for your code…</pre>
+
+          <div id="sol2" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+  <strong>Solution — using built-in Stack</strong>
+  <button class="btn xs" onclick="copySol(2)">Copy</button>
+</div>
+<pre>import java.util.*;
+public class Main {
+  public static void main(String[] args){
+    Scanner sc=new Scanner(System.in);
+    String s=sc.nextLine();
+    Stack<Character> st=new Stack<>();
+    for(char c: s.toCharArray()) st.push(c);
+    StringBuilder sb=new StringBuilder();
+    while(!st.isEmpty()) sb.append(st.pop());
+    System.out.println(sb.toString());
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+
+      <!-- Q3 -->
+      <details class="q">
+        <summary><strong>Q3.</strong> Balanced parentheses (Medium)</summary>
+        <p>Check if an expression has balanced brackets: (), {}, []</p>
+        <div class="workspace">
+          <textarea class="editor" id="code3"></textarea>
+          <div class="actions">
+            <button class="btn primary" onclick="checkCode(3)">Check</button>
+            <button class="btn outline" onclick="toggleSolutions(3)">View Solutions</button>
+            <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+          </div>
+          <pre id="result3" class="result">Waiting for your code…</pre>
+
+          <div id="sol3" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+  <strong>Solution — balanced parentheses</strong>
+  <button class="btn xs" onclick="copySol(3)">Copy</button>
+</div>
+<pre>import java.util.*;
+public class Main{
+  public static boolean isBalanced(String s){
+    Stack<Character> st=new Stack<>();
+    for(char c: s.toCharArray()){
+      if(c=='('||c=='['||c=='{') st.push(c);
+      else {
+        if(st.isEmpty()) return false;
+        char t=st.pop();
+        if(c==')' && t!='(') return false;
+        if(c==']' && t!='[') return false;
+        if(c=='}' && t!='{') return false;
+      }
+    }
+    return st.isEmpty();
+  }
+  public static void main(String[] args){
+    Scanner sc=new Scanner(System.in);
+    String s=sc.nextLine();
+    System.out.println(isBalanced(s) ? "Balanced" : "Not Balanced");
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+
+      <!-- Q4 -->
+      <details class="q">
+        <summary><strong>Q4.</strong> Implement stack using linked list (Medium)</summary>
+        <p>Implement push/pop/peek using singly linked list (no built-ins).</p>
+        <div class="workspace">
+          <textarea class="editor" id="code4"></textarea>
+          <div class="actions">
+            <button class="btn primary" onclick="checkCode(4)">Check</button>
+            <button class="btn outline" onclick="toggleSolutions(4)">View Solutions</button>
+            <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+          </div>
+          <pre id="result4" class="result">Waiting for your code…</pre>
+
+          <div id="sol4" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+  <strong>Solution — Linked-list stack</strong>
+  <button class="btn xs" onclick="copySol(4)">Copy</button>
+</div>
+<pre>import java.util.*;
+public class Main{
+  static class Node{ int val; Node next; Node(int v){val=v;} }
+  Node head=null;
+  void push(int v){ Node n=new Node(v); n.next=head; head=n; }
+  int pop(){ if(head==null) return Integer.MIN_VALUE; int v=head.val; head=head.next; return v; }
+  int peek(){ return head==null?Integer.MIN_VALUE:head.val; }
+
+  public static void main(String[] args){
+    Main s=new Main();
+    s.push(5); s.push(8); System.out.println(s.pop()); System.out.println(s.peek());
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+
+      <!-- Q5 -->
+      <details class="q">
+        <summary><strong>Q5.</strong> Browser Back button simulation (Hard)</summary>
+        <p>Use two stacks to implement forward/back behavior: visit(url), back(), forward().</p>
+        <div class="workspace">
+          <textarea class="editor" id="code5"></textarea>
+          <div class="actions">
+            <button class="btn primary" onclick="checkCode(5)">Check</button>
+            <button class="btn outline" onclick="toggleSolutions(5)">View Solutions</button>
+            <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+          </div>
+          <pre id="result5" class="result">Waiting for your code…</pre>
+
+          <div id="sol5" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+  <strong>Solution — browser history with two stacks</strong>
+  <button class="btn xs" onclick="copySol(5)">Copy</button>
+</div>
+<pre>import java.util.*;
+public class Main{
+  Stack<String> back=new Stack<>(), forward=new Stack<>();
+  String current = "home";
+  void visit(String url){ back.push(current); current=url; forward.clear(); }
+  void back(){ if(!back.isEmpty()){ forward.push(current); current=back.pop(); } }
+  void forward(){ if(!forward.isEmpty()){ back.push(current); current=forward.pop(); } }
+  public static void main(String[] args){
+    Main b=new Main();
+    b.visit("a.com"); b.visit("b.com"); b.back(); System.out.println(b.current);
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+
+      <!-- Q6 -->
+      <details class="q">
+        <summary><strong>Q6.</strong> Evaluate postfix expression (Hard)</summary>
+        <p>Given a postfix expression, evaluate it using stack (operators + - * /).</p>
+        <div class="workspace">
+          <textarea class="editor" id="code6"></textarea>
+          <div class="actions">
+            <button class="btn primary" onclick="checkCode(6)">Check</button>
+            <button class="btn outline" onclick="toggleSolutions(6)">View Solutions</button>
+            <button class="btn ghost" onclick="openCompiler()">Run in Compiler</button>
+          </div>
+          <pre id="result6" class="result">Waiting for your code…</pre>
+
+          <div id="sol6" class="solution solutions hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+  <strong>Solution — postfix eval (sketch)</strong>
+  <button class="btn xs" onclick="copySol(6)">Copy</button>
+</div>
+<pre>import java.util.*;
+public class Main{
+  public static int evalPostfix(String s){
+    Stack<Integer> st=new Stack<>();
+    for(String t: s.split("\\s+")){
+      if(t.matches("-?\\d+")) st.push(Integer.parseInt(t));
+      else {
+        int b=st.pop(), a=st.pop();
+        switch(t){
+          case "+": st.push(a+b); break;
+          case "-": st.push(a-b); break;
+          case "*": st.push(a*b); break;
+          case "/": st.push(a/b); break;
+        }
+      }
+    }
+    return st.pop();
+  }
+  public static void main(String[] args){
+    Scanner sc=new Scanner(System.in);
+    System.out.println(evalPostfix(sc.nextLine()));
+  }
+}</pre>
+          </div>
+        </div>
+      </details>
+
+    </section>
+
+    <!-- Single Compiler iframe (hidden until used) -->
+    <section class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3>Run code in online compiler</h3>
+        <div>
+          <button class="btn primary" onclick="openCompiler()">Open Compiler</button>
+          <button class="btn outline" onclick="closeCompiler()">Close</button>
+        </div>
+      </div>
+
+      <div id="compilerWrap" class="compiler-wrap">
+        <iframe id="compilerFrame" class="compiler-frame" src="https://onecompiler.com/java" title="Online Java Compiler"></iframe>
+      </div>
+      <div class="muted" style="margin-top:10px;">Tip: the in-page checker does quick structure checks — use the compiler to fully run tests.</div>
+    </section>
+
+  </main>
+
+  <footer class="footer">Made with ❤️ — Java DSA Learning</footer>
+
+<script>
+  // explanation listener (click code lines)
+  document.querySelectorAll("#example code").forEach(line=>{
+    line.addEventListener("click", function(){
+      document.getElementById("lineExplain").textContent = this.getAttribute("data-explain");
+    });
+  });
+
+  // toggle solution panels
+  function toggleSolutions(idx){
+    const el = document.getElementById('sol'+idx);
+    if(!el) return;
+    el.classList.toggle('hidden');
+  }
+
+  // open/close single compiler
+  function openCompiler(){
+    const wrap = document.getElementById('compilerWrap');
+    wrap.style.display = 'block';
+    wrap.scrollIntoView({behavior:'smooth'});
+  }
+  function closeCompiler(){
+    const wrap = document.getElementById('compilerWrap');
+    wrap.style.display = 'none';
+  }
+
+  // copy solution helper
+  function copySol(q){
+    const root = document.getElementById('sol'+q);
+    if(!root) return alert('No solution found');
+    const txt = root.querySelector('pre').innerText;
+    navigator.clipboard.writeText(txt).then(()=>alert('Solution copied to clipboard'));
+  }
+
+  // lightweight heuristic checker for stacks questions
+  function checkCode(idx){
+    const box = document.getElementById('code' + idx);
+    const out = document.getElementById('result' + idx);
+    if(!box || !out) return;
+    const code = (box.value || '').trim();
+    const hints = [];
+
+    // Basic checks for class and main
+    if(!/class\s+Main/.test(code) && !/public\s+class\s+Main/.test(code)) hints.push('Include `class Main { ... }`');
+    if(!/static\s+void\s+main\s*\(\s*String\s*\[\s*\]\s*args\s*\)/.test(code)) hints.push('Include `public static void main(String[] args)`');
+
+    // question specific hints
+    if(idx === 1){
+      if(!/\b(int\s*\[ *\]|\bstack\b|push\s*\(|pop\s*\(|top\b)/i.test(code)) hints.push('Implement an int[] or use push/pop/top to manage the array-based stack.');
+    }
+    if(idx === 2){
+      if(!/(Stack<|push\s*\(|pop\s*\(|StringBuilder|reverse)/i.test(code)) hints.push('Use a Stack (push/pop) or StringBuilder.reverse() to reverse the string.');
+    }
+    if(idx === 3){
+      if(!/(Stack<|push\s*\(|pop\s*\(|charAt|matches\(|\(|\))/i.test(code)) hints.push('Use a Stack: push opening brackets, pop and match on closing brackets.');
+    }
+    if(idx === 4){
+      if(!/(Node|class\s+Node|LinkedList|next|new\s+Node|push\s*\(|pop\s*\()/i.test(code)) hints.push('Implement Node class and use head pointer to push/pop for linked-list based stack.');
+    }
+    if(idx === 5){
+      if(!/(Stack<|push\s*\(|pop\s*\(|forward|back|history)/i.test(code)) hints.push('Use two stacks (back/forward) and simulate visit/back/forward operations.');
+    }
+    if(idx === 6){
+      if(!/(Stack<|push\s*\(|pop\s*\(|postfix|\\b\\d+\\b|split\(|evalPostfix)/i.test(code)) hints.push('Use a stack: push numbers, pop two operands on operator and push result.');
+    }
+
+    if(hints.length){
+      out.innerText = '❌ Not yet — hints:\\n' + hints.map(h=>'• ' + h).join('\\n') + '\\nTip: click "View Solutions" to open a full solution.';
+      out.style.color = '';
+    } else {
+      out.innerText = '✅ Basic checks passed. Good job — open the online compiler to fully run your code with inputs.';
+      out.style.color = '';
+    }
+  }
+</script>
+
+</body>
+</html>
